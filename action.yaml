@@ -1,0 +1,18 @@
+name: 'Request Republish Package'
+description: 'Upload a package as a GitHub Artifact, then request that a workflow in another repository republishes the package as a GitHub Package'
+inputs:
+  dest-owner:
+    description: 'The GitHub owner (organisation or individual) of the repo to send the republish request to'
+    required: true
+  dest-repo:
+    description: 'The repo (owned by dest-owner) to send the republish request to'
+    required: true
+  package-path:
+    description: 'The path to the package file'
+    required: true
+  repository-dispatch-token:
+    description: 'A GitHub auth token which has access to trigger the repository dispatch event on the destination repo'
+    required: true
+runs:
+  using: 'node12'
+  main: 'index.js'
