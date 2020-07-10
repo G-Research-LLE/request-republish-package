@@ -25,6 +25,7 @@ const exec = util.promisify(require('child_process').exec);
         console.log('Uploading package as a GitHub artifact');
         const artifactClient = create();
         const uploadOptions = {continueOnError: false};
+        console.log('packageDir is ' + packageDir);
         const uploadResponse = await artifactClient.uploadArtifact(packageName, [packageName], process.cwd() + '/' + packageDir);
 
         // This is the special log message which check-and-republish-package looks for.
