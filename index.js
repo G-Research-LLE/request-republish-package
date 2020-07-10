@@ -14,7 +14,7 @@ const exec = util.promisify(require('child_process').exec);
         const repositoryDispatchToken = core.getInput('repository-dispatch-token');
 
         const packagePathParts = packagePath.split('/');
-        const packageDir = packagePathParts.slice(0, packagePathParts.length - 1);
+        const packageDir = packagePathParts.slice(0, packagePathParts.length - 1).join('/');
         const packageName = packagePathParts[packagePathParts.length - 1];
 
         console.log('Checking SHA256 of ' + packagePath);
