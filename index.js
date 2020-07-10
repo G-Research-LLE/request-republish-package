@@ -14,6 +14,7 @@ const exec = util.promisify(require('child_process').exec);
         const repositoryDispatchToken = core.getInput('repository-dispatch-token');
 
         const packagePathParts = packagePath.split('/');
+        const packageDir = packagePathParts.slice(0, packagePathParts.length - 1);
         const packageName = packagePathParts[packagePathParts.length - 1];
 
         console.log('Checking SHA256 of ' + packagePath);
@@ -24,7 +25,7 @@ const exec = util.promisify(require('child_process').exec);
         console.log('Uploading package as a GitHub artifact');
         const artifactClient = create();
         const uploadOptions = {continueOnError: false};
-        const uploadResponse = await artifactClient.uploadArtifact(packageName, [packagePath], process.cwd());
+        const uploadResponse = await artifactClient.uploadArtifact(packageName, [packageName], process.cwd() + '/' + packageDir);
 
         // This is the special log message which check-and-republish-package looks for.
         console.log('--- Uploaded package ' + packageName + ' as a GitHub artifact (SHA256: ' + sha256 + ') ---');
