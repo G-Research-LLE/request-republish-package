@@ -1,0 +1,15 @@
+on: [push]
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test action
+        uses: ./
+        with:
+          dest-owner: djn24
+          dest-repo: DotNetLib
+          package-path: README.md
+          repository-dispatch-token: XXXXX
