@@ -1,6 +1,5 @@
 on:
-  repository_dispatch:
-    types: [not_really_repository_dispatch___just_so_it_only_runs_locally_with_act]
+  push
 
 jobs:
   job:
@@ -13,6 +12,6 @@ jobs:
         with:
           dest-owner: djn24
           dest-repo: DotNetLib
-          package-path: README.md
+          package-path: '*.md'
           source-token: XXXXX
           repository-dispatch-token: XXXXX

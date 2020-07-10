@@ -4,14 +4,26 @@ const github = require('@actions/github');
 const fs = require('fs').promises;
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
+const glob = require('glob-promise');
 
 (async () => {
     try {
         const destOwner = core.getInput('dest-owner');
         const destRepo = core.getInput('dest-repo');
-        const packagePath = core.getInput('package-path');
+        const packagePathPattern = core.getInput('package-path');
         const sourceToken = core.getInput('source-token');
         const repositoryDispatchToken = core.getInput('repository-dispatch-token');
+
+        const packagePathGlobs = await glob(packagePathPattern);
+        if (packagePathGlobs.length == 0) {
+            core.setFailed('Couldn\'t find a file matching ' + packagePath + ' (did try glob expansion)');
+            return;
+        }
+        if (packagePathGlobs.length > 1) {
+            core.setFailed('Glob expansion of ' + packagePath + ' found multiple files: ' + packagePathGlobs.join(', '));
+            return;
+        }
+        const packagePath = packagePathGlobs[0];
 
         const packagePathParts = packagePath.split('/');
         const packageDir = packagePathParts.slice(0, packagePathParts.length - 1).join('/');
