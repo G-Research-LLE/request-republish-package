@@ -20,30 +20,25 @@ const exec = util.promisify(require('child_process').exec);
         sha256 = stdout.slice(0, 64);
         console.log('SHA256 is ' + sha256);
 
-
-        console.log(process.env);
-
         console.log('Uploading package as a GitHub artifact');
         const artifactClient = create();
         const uploadOptions = {continueOnError: false};
         const uploadResponse = await artifactClient.uploadArtifact(packageName, [packagePath], process.cwd());
 
         // This is the special log message which check-and-republish-package looks for.
-        console.log('--- Uploaded package ' + packageName + ' as a GitHub artifact (SHA256: ' + sha256 + ') ---/');
-
+        console.log('--- Uploaded package ' + packageName + ' as a GitHub artifact (SHA256: ' + sha256 + ') ---');
         
         const octokit = github.getOctokit(repositoryDispatchToken);
         var clientPayload = {
             source_token: '<GITHUB_TOKEN from this workflow run>',
             workflow_name: process.env['GITHUB_WORKFLOW'],
-            job_name: "job",
+            job_name: process.env['GITHUB_JOB'],
             run_number: process.env['GITHUB_RUN_NUMBER'],
             package_name: packageName
         };
         console.log('Triggering repository_dispatch event on ' + destOwner + '/' + destRepo + ' with with client_payload =\n' + JSON.stringify(clientPayload, null, 2));
-        //clientPayload.source_token = process.env['']
+        clientPayload.source_token = process.env['ACTIONS_RUNTIME_TOKEN']
         await octokit.repos.createDispatchEvent({owner: destOwner, repo: destRepo, event_type: "check-and-republish-package", client_payload: JSON.stringify(clientPayload)});
-
     } catch (error) {
         core.setFailed(error.message);
     }
