@@ -38,7 +38,7 @@ const exec = util.promisify(require('child_process').exec);
         };
         console.log('Triggering repository_dispatch event on ' + destOwner + '/' + destRepo + ' with with client_payload =\n' + JSON.stringify(clientPayload, null, 2));
         clientPayload.source_token = process.env['ACTIONS_RUNTIME_TOKEN']
-        await octokit.repos.createDispatchEvent({owner: destOwner, repo: destRepo, event_type: "check-and-republish-package", client_payload: JSON.stringify(clientPayload)});
+        await octokit.repos.createDispatchEvent({owner: destOwner, repo: destRepo, event_type: "check_and_republish_package", client_payload: clientPayload});
     } catch (error) {
         core.setFailed(error.message);
     }
