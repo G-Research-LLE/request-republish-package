@@ -12,4 +12,5 @@ jobs:
           dest-owner: djn24
           dest-repo: DotNetLib
           package-path: README.md
+          source-token: XXXXX
           repository-dispatch-token: XXXXX

@@ -10,6 +10,7 @@ const exec = util.promisify(require('child_process').exec);
         const destOwner = core.getInput('dest-owner');
         const destRepo = core.getInput('dest-repo');
         const packagePath = core.getInput('package-path');
+        const sourceToken = core.getInput('source-token');
         const repositoryDispatchToken = core.getInput('repository-dispatch-token');
 
         const packagePathParts = packagePath.split('/');
@@ -30,14 +31,14 @@ const exec = util.promisify(require('child_process').exec);
         
         const octokit = github.getOctokit(repositoryDispatchToken);
         var clientPayload = {
-            source_token: '<GITHUB_TOKEN from this workflow run>',
+            source_token: '<source-token>',
             workflow_name: process.env['GITHUB_WORKFLOW'],
             job_name: process.env['GITHUB_JOB'],
             run_number: process.env['GITHUB_RUN_NUMBER'],
             package_name: packageName
         };
         console.log('Triggering repository_dispatch event on ' + destOwner + '/' + destRepo + ' with with client_payload =\n' + JSON.stringify(clientPayload, null, 2));
-        clientPayload.source_token = process.env['ACTIONS_RUNTIME_TOKEN']
+        clientPayload.source_token = sourceToken;
         await octokit.repos.createDispatchEvent({owner: destOwner, repo: destRepo, event_type: "check_and_republish_package", client_payload: clientPayload});
     } catch (error) {
         core.setFailed(error.message);

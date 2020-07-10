@@ -10,6 +10,9 @@ inputs:
   package-path:
     description: 'The path to the package file'
     required: true
+  source-token:
+    description: 'A GitHub auth token which has read access to this repo'
+    required: true
   repository-dispatch-token:
     description: 'A GitHub auth token which has access to trigger the repository dispatch event on the destination repo'
     required: true
