@@ -8,6 +8,11 @@ const glob = require('glob-promise');
 
 (async () => {
     try {
+
+        const foo = "hghg, ghghgh, hgghgh   , ghfhf".split(',').map(f => f.trim());
+        console.log('xxx'.includes('hgghgh'));
+        console.log(foo);
+
         const destOwner = core.getInput('dest-owner');
         const destRepo = core.getInput('dest-repo');
         const packagePathPattern = core.getInput('package-path');
