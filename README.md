@@ -5,7 +5,7 @@ the other repository is expected to use [G-Research-LLE/check-and-republish-pack
 
 ## Why?
 
-This action (and [G-Research-LLE/check-and-republish-package](https://github.com/G-Research-LLE/check-and-republish-package), combined with some carefully controlled permissions,
+This action (combined with [G-Research-LLE/check-and-republish-package](https://github.com/G-Research-LLE/check-and-republish-package) and some carefully crafted permissions)
 can be used to ensure that all of the GitHub packages on a GitHub org have been built from protected branches. This can be useful where the packages are to be relied upon in a
 secure environment. For further details see SDR-816 in G-Research internal JIRA.
 
