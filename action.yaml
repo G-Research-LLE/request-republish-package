@@ -1,4 +1,4 @@
-name: 'Request Republish Package'
+name: 'request-republish-package'
 description: 'Upload a package as a GitHub Artifact, then request that a workflow in another repository republishes the package as a GitHub Package'
 inputs:
   dest-owner:
